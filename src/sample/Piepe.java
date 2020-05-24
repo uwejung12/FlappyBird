@@ -40,27 +40,46 @@ public class Piepe {
 
     public boolean Checkcollision (int FlappyX, int FlappyY){
             if (
-                //FlappyX >= x && FlappyX <= x + 40 && FlappyY <= 20 * (piepetop + 2) ||
-                //FlappyX >= x - xtop && FlappyX <= x + 40 + xtop && FlappyY <= 20 * (piepetop + 2) + 24 ||
-                FlappyX >= x && FlappyY >= 0 && FlappyX <= x + 40 && FlappyY <= 20 * (piepetop + 2) ||
 
+                FlappyX >= x &&
+                FlappyY >= 0 &&
+                FlappyX <= x + 40 &&
+                FlappyY <= 20 * (piepetop + 2) ||
 
-                FlappyX >= x - xtop  &&  FlappyY >= 20 * (piepetop + 2) && FlappyX <= x + 40 + xtop && FlappyY <= 20 * (piepetop + 2) ||
+                FlappyX >= x - xtop &&
+                FlappyY >= 20 * (piepetop + 2) &&
+                FlappyX <= x + 40 + xtop &&
+                FlappyY <= 20 * (piepetop + 2) + 24 ||
 
-                FlappyX >= x && FlappyX <= x + 40 && FlappyY >= 750 -(20 * (piepebottom + 2)) ||
-                FlappyX >= x - xtop && FlappyX <= x + 40 + xtop && FlappyY >= 750 - (20 * (piepebottom + 2) - 24)
+                FlappyX >= x &&
+                FlappyY >= 750 - (20 * (piepebottom + 2)) &&
+                FlappyX <= x + 40 &&
+                FlappyY <= 750 ||
+
+                FlappyX >= x - xtop &&
+                FlappyY >= 750 - (20 * (piepebottom + 2)) - 24 &&
+                FlappyX <= x + 40 + xtop &&
+                FlappyY <= 750 - (20 * (piepebottom + 2))
 
             ){
 
                 System.out.println("FlappyX: " + FlappyX );
                 System.out.println("FlappyY: " + FlappyY );
-                System.out.println("Piepe: " + piepebottom );
+                System.out.println("Piepe: " + piepetop );
 
                 int tmp = x - xtop;
-                System.out.println("X : " + tmp );
+                System.out.println("x - xtop: " + tmp );
 
-                tmp = 750 - (20 * (piepebottom + 2) - 24 );
-                System.out.println("Y : " + tmp );
+                tmp = 20 * (piepetop + 2);
+                System.out.println("20 * (piepetop + 2): " + tmp );
+
+                tmp = x + 40 + xtop;
+                System.out.println("x + 40 + xtop : " + tmp );
+
+                tmp = 20 * (piepetop + 2) + 24;
+                System.out.println("20 * (piepetop + 2) + 24:" + tmp );
+
+
             return true;
         }else {
                 return  false;

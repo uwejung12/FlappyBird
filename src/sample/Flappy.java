@@ -28,9 +28,9 @@ public class Flappy {
         rand[4][0] = 45;
         rand[4][1] = 30;
         rand[5][0] = 30;
-        rand[5][1] = 35;
+        rand[5][1] = 34;
         rand[6][0] = 14;
-        rand[7][1] = 35;
+        rand[7][1] = 34;
         rand[8][0] = 6;
         rand[8][1] = 29;
         rand[9][0] = 3;

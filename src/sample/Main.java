@@ -9,6 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -25,9 +26,6 @@ public class Main extends Application {
     int canvas_widht = 1500;
     int canvas_height = 800;
     boolean gameover = false;
-
-
-
 
     public static void main(String[] args)
     {
@@ -119,6 +117,8 @@ public class Main extends Application {
 
                     gc.drawImage(imgFlappy, flappy.getX(), flappy.getY());
 
+
+
                     /*gc.drawImage(imgpiepetop,100,100);
 
                     gc.drawImage(imgpiepetop,100,120);*/
@@ -141,9 +141,21 @@ public class Main extends Application {
                            gc.drawImage(imgpiepebottom, piepeList.get(j).getX(), 730 - i * 20);
                        }
 
-                       gc.drawImage(imgpiepebottomtop, piepeList.get(j).getX() - piepeList.get(j).getXtop(), 730 - i * 20);
+                       gc.drawImage(imgpiepebottomtop, piepeList.get(j).getX() - piepeList.get(j).getXtop(), 730 - i * 20 - 4);
                     }
 
+                    // Draw position of flappy
+
+                    gc.fillOval(flappy.getX(),flappy.getY(), 2, 2 );
+                    gc.fillText("x: ", 50, 50);
+
+                    String s = String.valueOf(flappy.getX());
+                    gc.fillText(s, 65, 50);
+
+                    gc.fillText("y: ", 50, 60);
+
+                    s = String.valueOf(flappy.getY());
+                    gc.fillText(s, 65, 60);
                     // check for new pipe
 
                     if(piepeList.get(piepeList.size() - 1 ).getX() == 1200){
@@ -157,7 +169,7 @@ public class Main extends Application {
 
                     if (flappy.getY() < canvas_height - flappy.getHeight() - 50 )  {
 
-                        flappy.fall();
+                        //flappy.fall();
 
                         for (int j = 0; j < piepeList.size(); j++){
                             for (int k = 0 ; k < flappy.getrand_number(); k++)
@@ -165,8 +177,10 @@ public class Main extends Application {
                             ){
                                 gameover = true;
                             }
+
                             piepeList.get(j).move();
                         }
+                        flappy.fall();
                     }
                     // Gameover plus image
                     else{
