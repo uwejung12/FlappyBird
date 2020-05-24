@@ -60,7 +60,7 @@ public class Main extends Application {
     public void start(Stage theStage)
     {
 
-        Flappy flappy = new Flappy(100 ,475 , 35, 50, 5);
+        Flappy flappy = new Flappy(100 ,475 , 35, 50, 5, 25);
 
         List<Piepe> piepeList = new ArrayList<Piepe>();
 
@@ -104,7 +104,7 @@ public class Main extends Application {
             public void handle(long currentNanoTime)
             {
                 if (!gameover) {
-                    double t = (currentNanoTime - startNanoTime) / 10000000.0;
+                    double t = (currentNanoTime - startNanoTime) /100000;
 
                     // System.out.println(t1);
                     // Clear the canvas
@@ -146,7 +146,7 @@ public class Main extends Application {
 
                     // Draw position of flappy
 
-                    gc.fillOval(flappy.getX(),flappy.getY(), 2, 2 );
+                    //gc.fillOval(flappy.getX(),flappy.getY(), 2, 2 );
                     gc.fillText("x: ", 50, 50);
 
                     String s = String.valueOf(flappy.getX());
@@ -156,7 +156,14 @@ public class Main extends Application {
 
                     s = String.valueOf(flappy.getY());
                     gc.fillText(s, 65, 60);
+
+                    gc.fillText("t: ", 50, 70);
+
+                    s = String.valueOf(t);
+                    gc.fillText(s, 65, 70);
                     // check for new pipe
+
+                    // draw timer
 
                     if(piepeList.get(piepeList.size() - 1 ).getX() == 1200){
                         piepeList.add(new Piepe( 1500));
@@ -180,7 +187,7 @@ public class Main extends Application {
 
                             piepeList.get(j).move();
                         }
-                        flappy.fall();
+                        flappy.fall(t);
                     }
                     // Gameover plus image
                     else{

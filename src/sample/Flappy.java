@@ -7,16 +7,21 @@ public class Flappy {
     int height;
     int widht;
     int up;
+    double fallspeed;
+    // t_tmp for the time to save
+    double t_tmp;
 
     int [][] rand = new int [14][2];
 
 
-    public Flappy (int x1, int y1, int h, int w, int u){
+    public Flappy (int x1, int y1, int h, int w, int u, double fallsp){
         x = x1;
         y = y1;
         height = h;
         widht = w;
         up = u;
+        fallspeed = fallsp;
+        t_tmp = 0;
         rand[0][0] = 35;
         rand[0][1] = 0;
         rand[1][0] = 41;
@@ -57,8 +62,16 @@ public class Flappy {
     public int getUp (){return up;}
 
 
-    public void fall (){
-        y++;
+    public void fall (double t){
+            System.out.println("t: " + t);
+            System.out.println("t_tmp: " + t_tmp);
+            System.out.println("t - t_tmp: " + (t - t_tmp));
+
+            if (t - t_tmp > fallspeed) {
+                y = y + 3;
+                t_tmp = t;
+            }
+
     }
 
     public void presskey (){
