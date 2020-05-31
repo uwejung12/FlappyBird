@@ -9,7 +9,8 @@ public class Flappy {
     int up;
     double fallspeed;
     // t_tmp for the time to save
-    double t_tmp;
+    double time_last;
+    double step;
 
     int [][] rand = new int [14][2];
 
@@ -21,7 +22,8 @@ public class Flappy {
         widht = w;
         up = u;
         fallspeed = fallsp;
-        t_tmp = 0;
+        time_last = 0;
+        step = 0;
         rand[0][0] = 35;
         rand[0][1] = 0;
         rand[1][0] = 41;
@@ -63,14 +65,34 @@ public class Flappy {
 
 
     public void fall (double t){
-            System.out.println("t: " + t);
-            System.out.println("t_tmp: " + t_tmp);
-            System.out.println("t - t_tmp: " + (t - t_tmp));
 
-            if (t - t_tmp > fallspeed) {
-                y = y + 3;
-                t_tmp = t;
-            }
+        double time_diff;
+        int i;
+
+        //System.out.println("t: " + t);
+        //System.out.println("time_last: " + time_last);
+
+        time_diff = t - time_last;
+
+        System.out.println("time_diff: " + time_diff);
+
+        step = step + time_diff * fallspeed / 10;
+
+        // System.out.println("step: " + step);
+
+        i = (int) step / 1;
+
+        y = y + i;
+
+        // System.out.println("i: " + i);
+
+        if (i > 0){
+            step = step - i;
+        }
+
+        System.out.println("y: " + y);
+
+        time_last = t;
 
     }
 
