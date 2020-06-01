@@ -60,7 +60,7 @@ public class Main extends Application {
     public void start(Stage theStage)
     {
 
-        Flappy flappy = new Flappy(100 ,475 , 35, 50, 5, 25);
+        Flappy flappy = new Flappy(100 ,475 , 35, 50, 5, 10);
 
         List<Piepe> piepeList = new ArrayList<Piepe>();
 
@@ -104,7 +104,9 @@ public class Main extends Application {
             public void handle(long currentNanoTime)
             {
                 if (!gameover) {
-                    double t = (currentNanoTime - startNanoTime) /100000;
+
+                    // time in 100 hundredth
+                    double t = (currentNanoTime - startNanoTime) / 10000000;
 
                     // System.out.println(t1);
                     // Clear the canvas
