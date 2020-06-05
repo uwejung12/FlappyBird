@@ -12,13 +12,19 @@ public class Piepe {
     public Piepe (int setx){
 
         Random rand = new Random();
-        int n = rand.nextInt(28);
+
+        int n;
+
+        // n = rand.nextInt(28);
+
+        n= 23;
 
         x = setx;
         xtop = 4;
 
         piepetop = rand.nextInt(n);
         piepebottom = n - piepetop;
+
     }
 
     public int gettop (){
@@ -34,8 +40,12 @@ public class Piepe {
         return xtop ;
     }
 
+    public  void setX (int setx){
+       x = setx;
+    }
+
     public void move (){
-        x = x-1;
+        x--;
     }
 
     public boolean Checkcollision (int FlappyX, int FlappyY){

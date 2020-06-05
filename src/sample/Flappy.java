@@ -7,15 +7,17 @@ public class Flappy {
     int height;
     int widht;
     int up;
+
     double fallspeed;
-    // t_tmp for the time to save
+    double fallacceleration;
+    double fallacceleration_last;
     double time_last;
     double step;
 
     int [][] rand = new int [14][2];
 
 
-    public Flappy (int x1, int y1, int h, int w, int u, double fallsp){
+    public Flappy (int x1, int y1, int h, int w, int u, double fallsp, double fallacc){
         x = x1;
         y = y1;
         height = h;
@@ -24,6 +26,8 @@ public class Flappy {
         fallspeed = fallsp;
         time_last = 0;
         step = 0;
+        fallacceleration = fallacc;
+        fallacceleration_last = 1;
         rand[0][0] = 35;
         rand[0][1] = 0;
         rand[1][0] = 41;
@@ -69,35 +73,26 @@ public class Flappy {
         double time_diff;
         int i;
 
-        //System.out.println("t: " + t);
-        //System.out.println("time_last: " + time_last);
-
         time_diff = t - time_last;
 
-        System.out.println("time_diff: " + time_diff);
-
-        step = step + time_diff * fallspeed / 10;
-
-        // System.out.println("step: " + step);
+        step = step + time_diff * fallspeed * fallacceleration_last /10;
 
         i = (int) step / 1;
 
         y = y + i;
 
-        // System.out.println("i: " + i);
-
         if (i > 0){
             step = step - i;
+            fallacceleration_last = fallacceleration_last + fallacceleration;
         }
 
-        System.out.println("y: " + y);
-
         time_last = t;
-
     }
 
     public void presskey (){
+
         y = y - up;
+        fallacceleration_last = 1;
     }
 
     public int getrand_x (int pos ){
@@ -110,6 +105,10 @@ public class Flappy {
 
     public int getrand_number (){
         return 14;
+    }
+
+    public  void setY (int sety){
+        y = sety;
     }
 }
 

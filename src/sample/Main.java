@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Circle;
@@ -26,6 +27,9 @@ public class Main extends Application {
     int canvas_widht = 1500;
     int canvas_height = 800;
     boolean gameover = false;
+    boolean restart = false;
+    int counter = 0;
+
 
     public static void main(String[] args)
     {
@@ -56,19 +60,24 @@ public class Main extends Application {
         });
     }
 
+
+
+
+
     @Override
     public void start(Stage theStage)
     {
 
-        Flappy flappy = new Flappy(100 ,475 , 35, 50, 5, 10);
+        Flappy flappy = new Flappy(100 ,475 , 35, 50, 7, 10, 0.1);
 
         List<Piepe> piepeList = new ArrayList<Piepe>();
 
-        //Piepe piepe = new Piepe(300);
+        // Initialization of the pipes
 
         for (int i = 1; i < 5 ; i++){
             piepeList.add(new Piepe(200 + i * 300));
         }
+
 
         theStage.setTitle( "AnimationTimer Example" );
 
@@ -96,34 +105,41 @@ public class Main extends Application {
         File file5 = new File("src/bottom.png");
         Image imgpbottom= new Image(file5.toURI().toString());
 
-
+        Button button = new Button("Restart ?");
+        button.setLayoutX(canvas_widht/2 - 30);
+        button.setLayoutY(canvas_height/2 + 100);
+        root.getChildren().addAll(button);
+        button.setOnAction(click  ->  {
+                    System.out.println("clicked");
+                    restart = true;
+                }
+        );
         final long startNanoTime = System.nanoTime();
 
         new AnimationTimer()
         {
             public void handle(long currentNanoTime)
             {
+                // restart
+
+                if (restart){
+                    flappy.setY(475);
+                    gameover = false;
+                    restart = false;
+                }
+
+
                 if (!gameover) {
+
+                    button.setVisible(false);
 
                     // time in 100 hundredth
                     double t = (currentNanoTime - startNanoTime) / 10000000;
 
-                    // System.out.println(t1);
                     // Clear the canvas
                     gc.clearRect(0, 0, canvas_widht, canvas_height);
 
-                    // background image clears canvas
-                    //gc.drawImage( space, 0, 0 );
-
-                    //gc.fillRect(flappy.getX() , flappy.getY(), 50,50);
-
                     gc.drawImage(imgFlappy, flappy.getX(), flappy.getY());
-
-
-
-                    /*gc.drawImage(imgpiepetop,100,100);
-
-                    gc.drawImage(imgpiepetop,100,120);*/
 
                     gc.drawImage(imgpbottom,0,750);
 
@@ -148,21 +164,23 @@ public class Main extends Application {
 
                     // Draw position of flappy
 
-                    //gc.fillOval(flappy.getX(),flappy.getY(), 2, 2 );
-                    gc.fillText("x: ", 50, 50);
+                    gc.setFont(Font.font ("Verdana", 20));
 
                     String s = String.valueOf(flappy.getX());
-                    gc.fillText(s, 65, 50);
+                    //gc.fillText(s, 65, 50);
 
                     gc.fillText("y: ", 50, 60);
-
                     s = String.valueOf(flappy.getY());
-                    gc.fillText(s, 65, 60);
+                    gc.fillText(s, 80, 60);
 
-                    gc.fillText("t: ", 50, 70);
-
+                    gc.fillText("t: ", 50, 80);
                     s = String.valueOf(t);
-                    gc.fillText(s, 65, 70);
+                    gc.fillText(s, 80, 80);
+
+                    s = String.valueOf(counter);
+
+                    gc.fillText("Counter: ", 50, 40);
+                    gc.fillText(s, 150, 40);
                     // check for new pipe
 
                     // draw timer
@@ -176,6 +194,9 @@ public class Main extends Application {
                         piepeList.remove(0);
                     }
 
+                    // counter
+
+
                     if (flappy.getY() < canvas_height - flappy.getHeight() - 50 )  {
 
                         //flappy.fall();
@@ -185,13 +206,22 @@ public class Main extends Application {
                             if (piepeList.get(j).Checkcollision(flappy.getX() + flappy.getrand_x(k), flappy.getY () + flappy.getrand_y(k))
                             ){
                                 gameover = true;
+                                File file = new File("src/gameover.png");
+                                Image imggameover = new Image(file.toURI().toString());
+
+                                gc.drawImage(imggameover, canvas_widht/2 - 250, canvas_height/2 - 83);
+
+                                button.setVisible(true);
                             }
 
+                            if (piepeList.get(j).getX() == 100){
+                                counter++;
+                            }
                             piepeList.get(j).move();
                         }
                         flappy.fall(t);
                     }
-                    // Gameover plus image
+                    // Gameover
                     else{
                         gameover = true;
 
@@ -199,6 +229,8 @@ public class Main extends Application {
                         Image imggameover = new Image(file.toURI().toString());
 
                         gc.drawImage(imggameover, canvas_widht/2 - 250, canvas_height/2 - 83);
+
+                        button.setVisible(true);
 
                     }
 
@@ -217,8 +249,6 @@ public class Main extends Application {
                         //gc.drawImage(right, 320, 64);
                     }
                 }
-
-
             }
         }.start();
 
