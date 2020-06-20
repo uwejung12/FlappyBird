@@ -107,8 +107,15 @@ public class Flappy {
         return 14;
     }
 
-    public  void setY (int sety){
+    public  void reset (int sety, double t){
         y = sety;
+        time_last = t;
+        fallacceleration_last = 1;
     }
+
+    public void setTime_last (double t){
+        time_last = t;
+    }
+
 }
 

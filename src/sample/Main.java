@@ -28,6 +28,7 @@ public class Main extends Application {
     int canvas_height = 800;
     boolean gameover = false;
     boolean restart = false;
+    boolean start = false;
     int counter = 0;
 
 
@@ -62,22 +63,20 @@ public class Main extends Application {
 
 
 
-
-
     @Override
     public void start(Stage theStage)
     {
 
-        Flappy flappy = new Flappy(100 ,475 , 35, 50, 7, 10, 0.1);
+        Flappy flappy = new Flappy(100 ,475 , 35, 50, 6, 10, 0.1);
 
         List<Piepe> piepeList = new ArrayList<Piepe>();
 
         // Initialization of the pipes
-
         for (int i = 1; i < 5 ; i++){
             piepeList.add(new Piepe(200 + i * 300));
         }
 
+        //piepeList = piepesinitialize(piepeList);
 
         theStage.setTitle( "AnimationTimer Example" );
 
@@ -120,12 +119,27 @@ public class Main extends Application {
         {
             public void handle(long currentNanoTime)
             {
+
+                double t = (currentNanoTime - startNanoTime) / 10000000;
+
+                if (currentlyActiveKeys.contains("UP")) {
+                    start = true;
+                    flappy.setTime_last(t);
+                }
+
                 // restart
 
                 if (restart){
-                    flappy.setY(475);
+
+                    flappy.reset(475, t);
+                    start = false;
+                    counter = 0;
                     gameover = false;
                     restart = false;
+                    piepeList.clear();
+                    for (int i = 1; i < 5 ; i++){
+                        piepeList.add(new Piepe(200 + i * 300));
+                    }
                 }
 
 
@@ -134,12 +148,16 @@ public class Main extends Application {
                     button.setVisible(false);
 
                     // time in 100 hundredth
-                    double t = (currentNanoTime - startNanoTime) / 10000000;
+
 
                     // Clear the canvas
                     gc.clearRect(0, 0, canvas_widht, canvas_height);
 
+                    // Draw Flappy
+
                     gc.drawImage(imgFlappy, flappy.getX(), flappy.getY());
+
+                    // Draw Bottom
 
                     gc.drawImage(imgpbottom,0,750);
 
@@ -219,7 +237,11 @@ public class Main extends Application {
                             }
                             piepeList.get(j).move();
                         }
-                        flappy.fall(t);
+
+                        if (start){
+                            flappy.fall(t);
+                        }
+
                     }
                     // Gameover
                     else{
@@ -239,14 +261,6 @@ public class Main extends Application {
                         if (flappy.getY() > 0) {
                             flappy.presskey();
                         }
-                    } else {
-                        // gc.drawImage(left, 64 ,64);
-                    }
-
-                    if (currentlyActiveKeys.contains("Down")) {
-                        //  gc.drawImage(rightGreen, 320, 64);
-                    } else {
-                        //gc.drawImage(right, 320, 64);
                     }
                 }
             }
